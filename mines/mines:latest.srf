@@ -1,0 +1,70 @@
+Bootstrap: docker
+From: continuumio/miniconda3:4.8.2
+
+%post
+    # Define shell as bash and init conda
+    export SHELL=/bin/bash
+    conda init bash
+    . /opt/conda/etc/profile.d/conda.sh
+
+    # Clone mines and create conda env
+    cd /usr
+    git clone https://github.com/YeoLab/MINES.git
+    cd MINES
+    git checkout 737d16cb07596ee7b25f11fe80057ba63361a494
+    conda create -n mines -c anaconda -c bioconda -c conda-forge -c default \
+        python=3.7.6 \
+        bedops=2.4.35 \
+        bedtools=2.29.2 \
+        pandas=0.23.4 \
+        numpy=1.16.4 \
+        pybedtools=0.8.0 \
+        scikit-learn=0.19.2
+
+    # Write custom init script and exec shortcuts
+    INIT_FN="/.singularity.d/env/92-conda.sh"
+    echo "#!/bin/bash" > $INIT_FN
+    echo ". /opt/conda/etc/profile.d/conda.sh" >> $INIT_FN
+    echo "conda activate mines" >> $INIT_FN
+
+    SCRIPT_FN="/opt/conda/envs/mines/bin/genomic_MINES"
+    echo "#!/bin/bash" > $SCRIPT_FN
+    echo 'python /usr/MINES/genomic_MINES.py $*' >> $SCRIPT_FN
+    chmod a+x $SCRIPT_FN
+
+    SCRIPT_FN="/opt/conda/envs/mines/bin/cDNA_MINES"
+    echo "#!/bin/bash" > $SCRIPT_FN
+    echo 'python /usr/MINES/cDNA_MINES.py $*' >> $SCRIPT_FN
+    chmod a+x $SCRIPT_FN
+
+%environment
+    export SHELL=/bin/bash
+    export LC_ALL=C.UTF-8
+    export LANG=C.UTF-8
+
+%test
+    genomic_MINES --help
+    cDNA_MINES --help
+
+%runscript
+    echo "Run with '--app' option (run 'singularity run-help' for available apps)"
+
+%apprun genomic_MINES
+    genomic_MINES $*
+
+%apprun cDNA_MINES
+    cDNA_MINES $*
+
+%apprun wig2bed
+    wig2bed $*
+
+%help
+    Singularity container for MINES (Python 3.7.6)
+    Apps available:
+    * genomic_MINES
+    * cDNA_MINES
+    * wig2bed
+
+%labels
+    author="Adrien Leger"
+    author_email="contact@adrienleger.com"

@@ -1,0 +1,67 @@
+Bootstrap: docker
+From: continuumio/miniconda3:4.8.2
+
+%post
+    # Define shell as bash and init conda
+    export SHELL=/bin/bash
+    conda init bash
+    . /opt/conda/etc/profile.d/conda.sh
+
+    # Clone epinano
+    cd /usr
+    git clone --depth 1 https://github.com/a-slide/EpiNano.git # Using forked frozen version frozen because the original repository is a mess
+
+    # Create conda env
+    conda create -n epinano -c anaconda -c bioconda -c conda-forge -c default \
+        python=3.6.9 \
+        pandas=0.25.1 \
+        dask=2.5.2 \
+        scikit-learn \
+        numpy \
+        biopython \
+        pysam \
+        matplotlib
+
+    # Write custom init script and exec shortcuts
+    INIT_FN="/.singularity.d/env/92-conda.sh"
+    echo "#!/bin/bash" > $INIT_FN
+    echo ". /opt/conda/etc/profile.d/conda.sh" >> $INIT_FN
+    echo "conda activate epinano" >> $INIT_FN
+
+    SCRIPT_FN="/opt/conda/envs/epinano/bin/Epinano_Predict"
+    echo "#!/bin/bash" > $SCRIPT_FN
+    echo 'python /usr/EpiNano/Epinano_Predict.py $*' >> $SCRIPT_FN
+    chmod a+x $SCRIPT_FN
+
+    SCRIPT_FN="/opt/conda/envs/epinano/bin/Epinano_Variants"
+    echo "#!/bin/bash" > $SCRIPT_FN
+    echo 'python /usr/EpiNano/Epinano_Variants.py $*' >> $SCRIPT_FN
+    chmod a+x $SCRIPT_FN
+
+%environment
+    export SHELL=/bin/bash
+    export LC_ALL=C.UTF-8
+    export LANG=C.UTF-8
+
+%test
+   Epinano_Predict --help
+   Epinano_Variants --help
+
+%runscript
+    echo "Run with '--app' option (run 'singularity run-help' for available apps)"
+
+%apprun Epinano_Predict
+    Epinano_Predict $*
+
+%apprun Epinano_Variants
+    Epinano_Variants $*
+
+%help
+    Singularity container for EpiNano
+    Apps available:
+    * Epinano_Predict
+    * Epinano_Variants
+
+%labels
+    author="Adrien Leger"
+    author_email="contact@adrienleger.com"

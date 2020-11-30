@@ -1,0 +1,71 @@
+Bootstrap: docker
+From: continuumio/miniconda3:4.8.2
+
+%post
+    # Define shell as bash and init conda
+    export SHELL=/bin/bash
+    conda init bash
+    . /opt/conda/etc/profile.d/conda.sh
+
+    # Clone eligos and create conda env from provided env file
+    cd /usr
+    git clone https://gitlab.com/piroonj/eligos2.git
+    cd eligos2
+    git checkout b03282d13ec2128b00eff5280c09c252644078a4
+    conda env create -f eligos2.linux.yml
+
+    # Write custom init script
+    INIT_FN="/.singularity.d/env/92-conda.sh"
+    echo "#!/bin/bash" > $INIT_FN
+    echo ". /opt/conda/etc/profile.d/conda.sh" >> $INIT_FN
+    echo "conda activate eligos2" >> $INIT_FN
+
+%environment
+    export SHELL=/bin/bash
+    export LC_ALL=C.UTF-8
+    export LANG=C.UTF-8
+    export PATH=/usr/eligos2:/usr/eligos2/Scripts:$PATH
+
+%test
+    eligos2 --help
+    eligos2 map_preprocess --help
+    eligos2 build_genedb --help
+    eligos2 rna_mod --help
+    eligos2 pair_diff_mod --help
+    eligos2 bedgraph --help
+    eligos2 filter --help
+
+%runscript
+    echo "Run with '--app' option (run 'singularity run-help' for available apps)"
+
+%apprun eligos2-map_preprocess
+    eligos2 map_preprocess $*
+
+%apprun eligos2-build_genedb
+    eligos2 build_genedb $*
+
+%apprun eligos2-rna_modos2
+    eligos2 rna_mod $*
+
+%apprun eligos2-pair_diff_mod
+    eligos2 pair_diff_mod $*
+
+%apprun eligos2-bedgraphs2
+    eligos2 bedgraph $*
+
+%apprun eligos2-filtergos2
+    eligos2 filter $*
+
+%help
+    Singularity container for eligos2
+    Apps available:
+    * eligos2-map_preprocess
+    * eligos2-build_genedb
+    * eligos2-rna_mod
+    * eligos2-pair_diff_mod
+    * eligos2-bedgraph
+    * eligos2-filter
+
+%labels
+    author="Adrien Leger"
+    author_email="contact@adrienleger.com"

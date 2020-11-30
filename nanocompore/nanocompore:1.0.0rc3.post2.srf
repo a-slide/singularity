@@ -1,0 +1,45 @@
+Bootstrap: docker
+From: python:3.7.9-slim-buster
+
+%post
+    pip install nanocompore==1.0.0rc3.post2 NanopolishComp==0.6.11
+
+%environment
+    export SHELL=/bin/bash
+    export LC_ALL=C.UTF-8
+    export LANG=C.UTF-8
+
+%test
+    nanocompore --help
+    nanocompore sampcomp --help
+    nanocompore simreads --help
+    NanopolishComp --help
+    NanopolishComp Eventalign_collapse --help
+    NanopolishComp Freq_meth_calculate --help
+
+%runscript
+    nanocompore $*
+
+%apprun nanocompore-sampcomp
+    nanocompore sampcomp $*
+
+%apprun nanocompore-simreads
+    nanocompore simreads $*
+
+%apprun NanopolishComp-Eventalign_collapse
+    NanopolishComp Eventalign_collapse $*
+
+%apprun NanopolishComp-Freq_meth_calculate
+    NanopolishComp Freq_meth_calculate $*
+
+%help
+    Singularity container for nanocompore (Python 3.7.9)
+    Apps available:
+    * nanocompore-sampcomp
+    * nanocompore-simreads
+    * NanopolishComp-Eventalign_collapse
+    * NanopolishComp-Freq_meth_calculate
+
+%labels
+    author="Adrien Leger"
+    author_email="contact@adrienleger.com"

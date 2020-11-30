@@ -1,0 +1,59 @@
+Bootstrap: docker
+From: continuumio/miniconda3:4.8.2
+
+%post
+    conda install -c bioconda ont-tombo=1.5.1
+
+%environment
+    export SHELL=/bin/bash
+    export LC_ALL=C.UTF-8
+    export LANG=C.UTF-8
+
+%test
+    tombo --help
+    tombo resquiggle --help
+    tombo preprocess --help
+    tombo filter --help
+    tombo detect_modifications --help
+    tombo text_output --help
+    tombo build_model --help
+    tombo plot --help
+
+%runscript
+    echo "Run with '--app' option (run 'singularity run-help' for available apps)"
+
+%apprun tombo-resquiggle
+    tombo resquiggle $*
+
+%apprun tombo-preprocess
+    tombo preprocess $*
+
+%apprun tombo-filter
+    tombo filter $*
+
+%apprun tombo-detect_modifications
+    tombo detect_modifications $*
+
+%apprun tombo-text_output
+    tombo text_output $*
+
+%apprun tombo-build_model
+    tombo build_model $*
+
+%apprun tombo-plot
+    tombo plot $*
+
+%help
+    Singularity container for ONT Tombo (Python 3.7.6)
+    Apps available:
+    * tombo-resquiggle
+    * tombo-preprocess
+    * tombo-filter
+    * tombo-detect_modifications
+    * tombo-text_output
+    * tombo-build_model
+    * tombo-plot
+
+%labels
+    author="Adrien Leger"
+    author_email="contact@adrienleger.com"

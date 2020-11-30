@@ -1,0 +1,42 @@
+Bootstrap: docker
+From: python:3.8.6-slim-buster
+
+%post
+    # Install git
+    apt-get -y update
+    apt-get -y install git
+
+    # Clone last xpore release and install in develop mode
+    # pip install xpore==0.5.6 # does not work for some reason
+    cd /usr
+    git clone -b v0.5.6 https://github.com/GoekeLab/xpore.git
+    cd /usr/xpore
+    pip install -e ./
+
+%environment
+    export SHELL=/bin/bash
+    export LC_ALL=C.UTF-8
+    export LANG=C.UTF-8
+
+%test
+    xpore-diffmod --help
+    xpore-dataprep --help
+
+%runscript
+    echo "Run with '--app' option (run 'singularity run-help' for available apps)"
+
+%apprun xpore-diffmod
+    xpore-diffmod $*
+
+%apprun xpore-dataprep
+    xpore-dataprep $*
+
+%help
+    Singularity container for Xpore (Python 3.7.9)
+    Apps available:
+    * xpore-diffmod
+    * xpore-dataprep
+
+%labels
+    author="Adrien Leger"
+    author_email="contact@adrienleger.com"

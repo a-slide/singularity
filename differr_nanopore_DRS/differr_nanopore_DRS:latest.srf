@@ -1,0 +1,28 @@
+Bootstrap: docker
+From: python:3.7.9-slim-buster
+
+%post
+    apt-get -y update
+    apt-get -y install git
+    git clone https://github.com/bartongroup/differr_nanopore_DRS.git
+    cd differr_nanopore_DRS
+    git checkout 7da06526803c60c1046c7782d10eb0a53873def8
+    pip install -e ./
+
+%environment
+    export SHELL=/bin/bash
+    export LC_ALL=C.UTF-8
+    export LANG=C.UTF-8
+
+%test
+    differr --help
+
+%runscript
+    differr $*
+
+%help
+    Singularity container for differr_nanopore_DRS (Python 3.7.9)
+
+%labels
+    author="Adrien Leger"
+    author_email="contact@adrienleger.com"
