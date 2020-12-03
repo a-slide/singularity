@@ -4,6 +4,7 @@ From: continuumio/miniconda3:4.8.2
 %post
     # Define shell as bash and init conda
     export SHELL=/bin/bash
+    conda update -c defaults conda
     conda init bash
     . /opt/conda/etc/profile.d/conda.sh
 
@@ -20,6 +21,7 @@ From: continuumio/miniconda3:4.8.2
         numpy=1.16.4 \
         pybedtools=0.8.0 \
         scikit-learn=0.19.2
+    conda clean --all
 
     # Write custom init script and exec shortcuts
     INIT_FN="/.singularity.d/env/92-conda.sh"

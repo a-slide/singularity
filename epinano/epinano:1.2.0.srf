@@ -4,6 +4,7 @@ From: continuumio/miniconda3:4.8.2
 %post
     # Define shell as bash and init conda
     export SHELL=/bin/bash
+    conda update -c defaults conda
     conda init bash
     . /opt/conda/etc/profile.d/conda.sh
 
@@ -12,15 +13,19 @@ From: continuumio/miniconda3:4.8.2
     git clone --depth 1 https://github.com/a-slide/EpiNano.git # Using forked frozen version frozen because the original repository is a mess
 
     # Create conda env
-    conda create -n epinano -c anaconda -c bioconda -c conda-forge -c default \
-        python=3.6.9 \
-        pandas=0.25.1 \
+    conda create -n epinano -c anaconda -c bioconda -c conda-forge -c default -c hcc \
+        jvarkit-sam2tsv=1.0 \
+        python=3.6.7 \
+        pandas=0.23.4 \
         dask=2.5.2 \
-        scikit-learn \
-        numpy \
-        biopython \
-        pysam \
-        matplotlib
+        scikit-learn=0.20.2 \
+        h5py=2.8.0 \
+        numpy=1.15.4 \
+        biopython=1.76 \
+        pysam
+        # openjdk=11.0.8 \
+
+    conda clean --all
 
     # Write custom init script and exec shortcuts
     INIT_FN="/.singularity.d/env/92-conda.sh"

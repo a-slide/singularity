@@ -2,9 +2,9 @@ Bootstrap: docker
 From: continuumio/miniconda3:4.8.2
 
 %post
-    VERSION=1.5.1
+    VERSION=1.4
     conda update -c defaults conda
-    conda install -y -c default -c anaconda -c bioconda -c conda-forge python=3.7.9 ont-tombo=$VERSION
+    conda install -y -c default -c anaconda -c bioconda -c conda-forge python=3.6.10 ont-tombo=$VERSION
     conda clean --all
 
 %environment

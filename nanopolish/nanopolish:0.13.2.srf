@@ -1,0 +1,46 @@
+Bootstrap: docker
+From: continuumio/miniconda3:4.8.2
+
+%post
+    VERSION=0.13.2
+    conda update -c defaults conda
+    conda install -y -c default -c anaconda -c bioconda -c conda-forge nanopolish=$VERSION
+
+%environment
+    export SHELL=/bin/bash
+    export LC_ALL=C.UTF-8
+    export LANG=C.UTF-8
+
+%test
+    nanopolish --help
+    nanopolish index --help
+    nanopolish call-methylation --help
+    nanopolish variants --help
+    nanopolish eventalign --help
+
+%runscript
+    echo "Run with '--app' option (run 'singularity run-help' for available apps)"
+
+%apprun nanopolish-index
+    nanopolish index $*
+
+%apprun nanopolish-call-methylation
+    nanopolish call-methylation $*
+
+%apprun nanopolish-variants
+    nanopolish variants $*
+
+%apprun nanopolish-eventalign
+    nanopolish eventalign $*
+
+%help
+    Singularity container for nanopolish
+    Apps available:
+    * nanopolish-index
+    * nanopolish-call-methylation
+    * nanopolish-variants
+    * nanopolish-eventalign
+
+%labels
+    author="Adrien Leger"
+    author_email="contact@adrienleger.com"

@@ -8,7 +8,7 @@ From: ubuntu:16.04
     apt-get -y update
     apt-get -y install wget lsb-release apt-transport-https build-essential gcc-multilib dkms
 
-    VERSION="4.2.2"
+    VERSION="3.1.5"
     mkdir /usr/ont-guppy
     cd /usr/ont-guppy
     URL="https://mirror.oxfordnanoportal.com/software/analysis/ont-guppy_${VERSION}_linux64.tar.gz"

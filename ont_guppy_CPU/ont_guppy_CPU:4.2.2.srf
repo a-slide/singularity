@@ -3,7 +3,10 @@ From: ubuntu:16.04
 
 %post
     apt-get -y update
-    apt-get -y install wget build-essential
+    apt-get -y install -y software-properties-common
+    apt-add-repository universe
+    apt-get -y update
+    apt-get -y install wget lsb-release apt-transport-https build-essential gcc-multilib dkms
 
     VERSION="4.2.2"
     mkdir /usr/ont-guppy
@@ -22,8 +25,21 @@ From: ubuntu:16.04
     guppy_barcoder --help
     guppy_basecaller --help
 
+%apprun guppy_aligner
+    guppy_aligner $*
+
+%apprun guppy_barcoder
+    guppy_barcoder $*
+
+%apprun guppy_basecaller
+    guppy_basecaller $*
+
 %help
     Singularity container for ont-guppy CPU
+    Apps available:
+    * guppy_aligner
+    * guppy_barcoder
+    * guppy_basecaller
 
 %labels
     author="Adrien Leger"

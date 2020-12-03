@@ -8,10 +8,10 @@ From: ubuntu:16.04
     apt-get -y update
     apt-get -y install wget lsb-release apt-transport-https build-essential gcc-multilib dkms
 
-    VERSION="4.2.2"
+    VERSION="3.1.5"
     mkdir /usr/ont-guppy
     cd /usr/ont-guppy
-    URL="https://mirror.oxfordnanoportal.com/software/analysis/ont-guppy_${VERSION}_linux64.tar.gz"
+    URL="https://mirror.oxfordnanoportal.com/software/analysis/ont-guppy-cpu_${VERSION}_linux64.tar.gz"
     wget $URL -O - | tar -xzf - --strip-components 1 --no-same-owner
 
 %environment
@@ -20,10 +20,10 @@ From: ubuntu:16.04
     export LANG=C.UTF-8
     export PATH=/usr/ont-guppy/bin:$PATH
 
-# %test
-#     guppy_aligner --help
-#     guppy_barcoder --help
-#     guppy_basecaller --help
+%test
+    guppy_aligner --help
+    guppy_barcoder --help
+    guppy_basecaller --help
 
 %apprun guppy_aligner
     guppy_aligner $*
@@ -35,7 +35,7 @@ From: ubuntu:16.04
     guppy_basecaller $*
 
 %help
-    Singularity container for ont-guppy GPU
+    Singularity container for ont-guppy CPU
     Apps available:
     * guppy_aligner
     * guppy_barcoder
