@@ -5,6 +5,7 @@ From: continuumio/miniconda3:4.8.2
     VERSION=0.13.2
     conda update -c defaults conda
     conda install -y -c default -c anaconda -c bioconda -c conda-forge nanopolish=$VERSION
+    conda clean --all
 
 %environment
     export SHELL=/bin/bash

@@ -8,7 +8,8 @@ nanocompore/nanocompore:1.0.0rc3.post2.srf: 5179898e168acc3b5dea8f6024bb2fa7
 minimap2/minimap2:2.17.srf: 3b716f7fd7e58f7c15cb9db207f2ff98
 ont_guppy_GPU/ont_guppy_GPU:4.2.2.srf: c73d9a9e110594973b08d8de1d002c38
 ont_guppy_CPU/ont_guppy_CPU:4.2.2.srf: 74d210023f9df8ac0be522ec2d220499
-nanopolish/nanopolish:0.13.2.srf: 59debee37f757cd47b51e2fad2691a29
+nanopolish/nanopolish:0.13.2.srf: bc2976b6267bb5a3ed304fa71c8edb71
 ont_guppy_CPU/ont_guppy_CPU:3.1.5.srf: 74c2e8d835677511bfaff2dfad5ab29b
 ont_guppy_GPU/ont_guppy_GPU:3.1.5.srf: 3ae7e1b859540aa342479d96cab12e5d
 tombo/tombo:1.4.srf: d84c48fb13d2bbe17959cdebb5083b12
+metacompore_python:3.8.6/metacompore_python:3.8.6.srf: 65b4c64321a2bb3fac30f34cfa68e626
