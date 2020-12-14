@@ -25,6 +25,9 @@ From: ubuntu:16.04
     guppy_barcoder --help
     guppy_basecaller --help
 
+%runscript
+    echo "Run with '--app' option (run 'singularity run-help' for available apps)"
+
 %apprun guppy_aligner
     guppy_aligner $*
 
