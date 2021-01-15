@@ -2,15 +2,21 @@ Bootstrap: docker
 From: python:3.8.6-slim-buster
 
 %post
-    pip install numpy>=1.19.4 pandas>=1.1.4 pysam>=0.16.0 pyfaidx>=0.5.9 scipy>=1.5.4 tqdm>=4.51.0 pyBioTools>=0.2.4
+    pip install pycoQC==2.5.2
 
 %environment
     export SHELL=/bin/bash
     export LC_ALL=C.UTF-8
     export LANG=C.UTF-8
 
+%test
+    pycoQC --help
+
+%runscript
+    pycoQC $*
+
 %help
-    Base container for python used in metacompore
+    Base container for python used in pycoQC
 
 %labels
     author="Adrien Leger"

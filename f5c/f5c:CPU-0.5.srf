@@ -1,0 +1,59 @@
+Bootstrap: docker
+From: debian:buster-slim
+
+%post
+    apt-get -y update
+    apt-get -y install wget
+
+    VERSION="0.5"
+    mkdir /usr/f5c
+    cd /usr/f5c
+    URL="https://github.com/hasindu2008/f5c/releases/download/v${VERSION}/f5c-v${VERSION}-binaries.tar.gz"
+    wget $URL -O - | tar -xzf - --strip-components 1 --no-same-owner
+    mv f5c_x86_64_linux f5c
+    rm f5c_x86_64_linux_cuda
+
+%environment
+    export SHELL=/bin/bash
+    export LC_ALL=C.UTF-8
+    export LANG=C.UTF-8
+    export PATH=/usr/f5c:$PATH
+
+%test
+    f5c --help
+    f5c index --help
+    f5c call-methylation --help
+    f5c meth-freq --help
+    f5c eventalign --help
+    f5c freq-merge --help
+
+%runscript
+    echo "Run with '--app' option (run 'singularity run-help' for available apps)"
+
+%apprun f5c_index
+    f5c index $*
+
+%apprun f5c_call-methylation
+    f5c call-methylation $*
+
+%apprun f5c_meth-freq
+    f5c meth-freq $*
+
+%apprun f5c_eventalign
+    f5c eventalign $*
+
+%apprun f5c_freq-merge
+    f5c freq-merge $*
+
+%help
+    Singularity container for ont-guppy CPU
+    Apps available:
+    * f5c_index
+    * f5c_call-methylation
+    * f5c_meth-freq
+    * f5c_eventalign
+    * f5c_freq-merge
+
+%labels
+    author="Adrien Leger"
+    author_email="contact@adrienleger.com"

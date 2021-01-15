@@ -1,30 +1,36 @@
 Bootstrap: docker
-From: debian:buster-slim
+From: continuumio/miniconda3:4.8.2
 
 %post
-    apt-get -y update
-    apt-get -y install wget build-essential
-
-    VERSION="2.17"
-    mkdir /usr/minimap2
-    cd /usr/minimap2
-    URL="https://github.com/lh3/minimap2/releases/download/v${VERSION}/minimap2-${VERSION}_x64-linux.tar.bz2"
-    wget $URL -O - | tar -jxf - --strip-components 1 --no-same-owner
+    MINIMAP_VERSION="2.17"
+    SAMTOOLS_VERSION="1.11"
+    conda update -c defaults conda
+    conda install -y -c default -c anaconda -c bioconda -c conda-forge minimap2=${MINIMAP_VERSION} samtools=${SAMTOOLS_VERSION}
+    conda clean --all
 
 %environment
     export SHELL=/bin/bash
     export LC_ALL=C.UTF-8
     export LANG=C.UTF-8
-    export PATH=/usr/minimap2:$PATH
 
 %test
     minimap2 --help
+    samtools --help
 
 %runscript
+    echo "Run with '--app' option (run 'singularity run-help' for available apps)"
+
+%apprun minimap2
     minimap2 $*
 
+%apprun samtools
+    samtools $*
+
 %help
-    Singularity container for minimap2
+    Singularity container for minimap2 and samtools
+    Apps available:
+    * minimap2
+    * samtools
 
 %labels
     author="Adrien Leger"

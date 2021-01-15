@@ -1,0 +1,40 @@
+Bootstrap: docker
+From: python:3.8.7-slim-buster
+
+%post
+    VERSION="1.0.3"
+    pip install nanocompore==${VERSION}
+
+%environment
+    export SHELL=/bin/bash
+    export LC_ALL=C.UTF-8
+    export LANG=C.UTF-8
+
+%test
+    nanocompore --help
+    nanocompore sampcomp --help
+    nanocompore simreads --help
+    nanocompore eventalign_collapse --help
+
+%runscript
+    nanocompore $*
+
+%apprun nanocompore-sampcomp
+    nanocompore sampcomp $*
+
+%apprun nanocompore-simreads
+    nanocompore simreads $*
+
+%apprun nanocompore-eventalign_collapse
+    nanocompore eventalign_collapse $*
+
+%help
+    Singularity container for nanocompore (Python 3.7.9)
+    Apps available:
+    * nanocompore-sampcomp
+    * nanocompore-simreads
+    * nanocompore-eventalign_collapse
+
+%labels
+    author="Adrien Leger"
+    author_email="contact@adrienleger.com"
