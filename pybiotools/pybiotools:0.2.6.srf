@@ -1,0 +1,23 @@
+Bootstrap: docker
+From: python:3.8.6-slim-buster
+
+%post
+pip install pyBioTools==0.2.6
+
+%environment
+    export SHELL=/bin/bash
+    export LC_ALL=C.UTF-8
+    export LANG=C.UTF-8
+
+%test
+    pyBioTools --help
+
+%runscript
+    pyBioTools $*
+
+%help
+    Base container for python used in pyBioTools
+
+%labels
+    author="Adrien Leger"
+    author_email="contact@adrienleger.com"

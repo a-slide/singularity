@@ -5,7 +5,6 @@ From: continuumio/miniconda3:4.8.2
     TOMBO_VERSION=1.4
     conda update -c defaults conda
     conda install -y -c default -c anaconda -c bioconda -c conda-forge python=3.7.9 ont-tombo=${TOMBO_VERSION}
-    pip install ont-fast5-api
     conda clean --all
 
 %environment
