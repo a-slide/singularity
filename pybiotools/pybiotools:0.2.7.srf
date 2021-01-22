@@ -2,7 +2,7 @@ Bootstrap: docker
 From: python:3.8.6-slim-buster
 
 %post
-pip install pyBioTools==0.2.6
+pip install pyBioTools==0.2.7
 
 %environment
     export SHELL=/bin/bash
