@@ -31,3 +31,6 @@ nanocompore/nanocompore:1.0.3.srf: bea3f34958a802ec62b529cf42b7ead9
 pybiotools/pybiotools:0.2.7.srf: 03d65573e25d25884945c6789b217df5
 pybiotools/pybiotools:0.2.6.srf: 62855e90bf88abded856436863a6e4ea
 f5c/f5c:CPU-0.5-dev.srf: e052aaf6e197b66af596e05b470b1728
+f5c/f5c:CPU-0.6.srf: 33bfcde561c6b14c5d699ffa334e2a94
+f5c/f5c:GPU-0.6.srf: 65e5b4962323e3acf869adac1146d1d8
+ont_guppy/ont_guppy:GPU-4.4.1.srf: b1927f932222c1a864f310bc77e7d46d
