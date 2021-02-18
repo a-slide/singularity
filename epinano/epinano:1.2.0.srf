@@ -22,7 +22,8 @@ From: continuumio/miniconda3:4.8.2
         h5py=2.8.0 \
         numpy=1.15.4 \
         biopython=1.76 \
-        pysam
+        pysam \
+				samtools
         # openjdk=11.0.8 \
 
     conda clean --all
@@ -70,3 +71,4 @@ From: continuumio/miniconda3:4.8.2
 %labels
     author="Adrien Leger"
     author_email="contact@adrienleger.com"
+
